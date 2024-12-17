@@ -1,34 +1,31 @@
-// Import the Express module
 const express = require('express');
-const cors = require('cors'); // Import CORS middleware
+const http = require('http');
+const socketIo = require('socket.io');
+const cors = require('cors');
 
-const Objects = {
-  userId: 1,
-  id: 1,
-  title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-  body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-};
-
-// Initialize the Express application
 const app = express();
-const port = process.env.PORT || 5000;
-
-// Enable CORS for all routes
 app.use(cors());
 
-// Middleware to parse JSON bodies (optional)
-app.use(express.json());
-
-// Define a simple GET route
-app.get('/', (req, res) => {
-  res.send('Welcome to the Simple API!');
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
 });
 
-app.get('/api', (req, res) => {
-  res.json(Objects); // Ensure response is JSON
+io.on('connection', (socket) => {
+  console.log('New client connected');
+
+  socket.on('message', (data) => {
+    console.log('Message received: ', data);
+    io.emit('message', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
