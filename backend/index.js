@@ -12,7 +12,7 @@ const Objects = {
 // Initialize the Express application
 const app = express();
 
-const port = process.env.port || 500
+const port = process.env.PORT || 500
 // Middleware to parse JSON bodies (optional)
 app.use(express.json());
 
