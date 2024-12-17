@@ -9,7 +9,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://testprs.onrender.com",
+    origin: "https://frontend-4z3u.onrender.com",
     methods: ["GET", "POST"]
   }
 });
