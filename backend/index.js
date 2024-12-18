@@ -22,11 +22,6 @@ io.on('connection', (socket) => {
     io.emit('message', data);
   });
 
-  socket.on('typing', (data) => {
-    console.log(data);
-    io.emit('typing', data);
-  });
-
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
