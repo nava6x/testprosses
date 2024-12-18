@@ -22,6 +22,11 @@ io.on('connection', (socket) => {
     io.emit('message', data);
   });
 
+  socket.on('typing', (data) => {
+    console.log(data);
+    io.emit('typing', data);
+  });
+
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
@@ -29,3 +34,4 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+ 
